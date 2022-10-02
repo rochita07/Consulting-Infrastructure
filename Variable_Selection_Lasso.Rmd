@@ -1,0 +1,84 @@
+---
+title: "Variable Selection using Lasso"
+output: pdf_document
+author: "Ananya Roy Chowdhury"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+First I load the data and clean it by removing any incomeplete rows (i.e. rows that have NA's in them).
+```{r}
+load("C:/Users/anany/Desktop/Consulting_Project_F21/crispcleanfinal.RData")
+library(glmnet)
+crispcleanfinal = na.omit(crispcleanfinal)
+```
+
+Then with this dataset I ran variable selection and regression using LASSO. I considered three variables separately PPP_Policy (average of Q15), PPPSupport (average of Q17) and PPPSupportUSe (average of Q22). For each of these variables I ran the LASSO separately and I exclude the variables id, weight1_PID, weight2_PID, AllTexasWeight, xcrisp, HarrisCountyWeight for variable selection. 
+
+Below is the LASSO analysis for PPP_Policy. I ran a k fold crossvalidation to choose the best tuning parameter Lambda. Below is the analysis along with the best model for PPP_Policy.
+
+```{r}
+y <- crispcleanfinal$PPP_Policy
+temp = subset(crispcleanfinal, select = - c(PPP_Policy, id, weight1_PID, weight2_PID, AllTexasWeight, xcrisp, HarrisCountyWeight))
+x <- data.matrix(temp)
+
+#perform k-fold cross-validation to find optimal lambda value
+cv_model <- cv.glmnet(x, y, alpha = 1)
+
+#find optimal lambda value that minimizes test MSE
+best_lambda <- cv_model$lambda.min
+best_lambda
+#produce plot of test MSE by lambda value
+plot(cv_model) 
+
+#find coefficients of best model
+best_model <- glmnet(x, y, alpha = 1, lambda = best_lambda)
+coef(best_model)
+```
+
+Next, I ran the LASSO for PPPSupportUse and below is the analysis along with the best model for PPPSupportUse.
+
+```{r}
+y <- crispcleanfinal$PPPSupportUse
+temp = subset(crispcleanfinal, select = - c(PPPSupportUse, id, weight1_PID, weight2_PID, AllTexasWeight, xcrisp, HarrisCountyWeight))
+x <- data.matrix(temp)
+
+#perform k-fold cross-validation to find optimal lambda value
+cv_model <- cv.glmnet(x, y, alpha = 1)
+
+#find optimal lambda value that minimizes test MSE
+best_lambda <- cv_model$lambda.min
+best_lambda
+#produce plot of test MSE by lambda value
+plot(cv_model) 
+
+#find coefficients of best model
+best_model <- glmnet(x, y, alpha = 1, lambda = best_lambda)
+coef(best_model)
+                                            
+```
+
+Finally, , I ran the LASSO for PPPSupport and below is the analysis along with the best model for PPPSupport.
+
+```{r}
+y <- crispcleanfinal$PPPSupport
+temp = subset(crispcleanfinal, select = - c(PPPSupport, id, weight1_PID, weight2_PID, AllTexasWeight, xcrisp, HarrisCountyWeight))
+x <- data.matrix(temp)
+
+#perform k-fold cross-validation to find optimal lambda value
+cv_model <- cv.glmnet(x, y, alpha = 1)
+
+#find optimal lambda value that minimizes test MSE
+best_lambda <- cv_model$lambda.min
+best_lambda
+#produce plot of test MSE by lambda value
+plot(cv_model) 
+
+#find coefficients of best model
+best_model <- glmnet(x, y, alpha = 1, lambda = best_lambda)
+coef(best_model)
+
+```
+

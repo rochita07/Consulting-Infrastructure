@@ -1,0 +1,323 @@
+\documentclass{article}
+
+\begin{document}
+
+Examining Consistency of Questions
+
+
+<<>>=
+library(psych)
+library(haven)
+load("crisp.RData")
+@
+
+
+Q4
+
+How reliable are the following types of infrastructure in your community? \\
+
+Statement in rows: Randomize \\
+
+a. Electrical power \\
+b. Natural gas \\
+c. Transportation \\
+d. Flood control \\
+e. Emergency response services
+f. Internet service \\
+g. Phone service \\
+h. Drinking water \\
+i. Wastewater management \\
+
+1. Not reliable at all \\
+2. Not so reliable \\
+3. Somewhat reliable \\
+4. Very reliable \\
+
+
+<<>>=
+library(psych)
+library(haven)
+#Q4
+library(reshape)
+matq4 = matrix(as.numeric(unlist(as.data.frame(crisp[,40:48]))), nrow = 810)
+alphaQ4 = alpha(matrix(as.numeric(unlist(as.data.frame(crisp[,40:48]))), nrow = 810))
+
+Q4avg = rowMeans(matq4)
+hist(Q4avg)
+@
+
+
+Q4 is internally consistent but is not normal \\
+
+How much of a problem do you think the following potential causes of infrastructure disruptions are in your community? \\
+
+a. Heavy rain \\
+b. High winds \\
+c. Snow \\
+d. Extreme temperatures \\
+e. Poor design \\
+f. Inadequate maintenance\\
+g. Insufficient capacity\\
+h. Old age\\
+
+1. Not a problem at all \\
+2. Not so much of a problem \\
+3. Somewhat of a problem \\
+4. A very serious problem \\
+
+
+
+<<>>=
+#Q5, 49:56
+
+matq5 = matrix(as.numeric(unlist(as.data.frame(crisp[,49:56]))), nrow = 810)
+alphaQ5 = alpha(matrix(as.numeric(unlist(as.data.frame(crisp[,49:56]))), nrow = 810))
+
+Q5avg = rowMeans(matq5)
+hist(Q5avg)
+@
+
+Q5 is internally consistent and normal\\
+In a storm related emergency, how likely do you think it is that each of the following will happen in your community? \\
+
+a. Flooding \\
+b. Release of untreated sewage\\
+c. Damage to property \\
+d. Difficulty evacuating\\
+e. Difficulty getting to work \\
+f. Delays in emergency response \\
+g. Difficulty getting to a grocery store \\
+h. Difficulty getting to a pharmacy \\
+i. Difficulty getting to a gas station \\
+j. Difficulty getting to health care facilities \\
+k. Difficulty getting to social service facilities \\
+l. Loss of electrical power \\
+m. Loss of natural gas \\
+n. Loss of running water \\
+o. Loss of phone service \\
+p. Loss of internet \\
+
+1. Not likely at all \\
+2. Not so likely\\
+3. Somewhat likely\\
+4. Very likely\\
+
+
+
+<<>>=
+#Q6, 57:72  
+
+matq6 = matrix(as.numeric(unlist(as.data.frame(crisp[,57:72]))), nrow = 810)
+alphaQ6 = alpha(matrix(matq6, nrow = 810))
+Q6avg = rowMeans(matq6)
+hist(Q6avg)
+@
+
+
+Q6 is internally consistent and normal \\
+
+Q15 
+How much would you oppose or support the following types of Public Private Partnerships for the construction of some infrastructure project in your community?\\
+
+a. A government agency builds something and then sells it to a private operator. \\
+b. A private contractor builds something and then sells it to the government.\\
+c. Government and a private contractor work together to fund, build, and operate an infrastructure element.\\
+d. Government and a nonprofit work together to fund, build, and operate an infrastructure element. \\
+
+
+1. Strongly oppose \\
+2. Oppose \\
+3. Neither support nor oppose \\
+4. Support \\
+5. Strongly support \\
+
+
+
+<<>>=
+#Q15 107:110
+
+matq15 = matrix(as.numeric(unlist(as.data.frame(crisp[,107:110]))), nrow = 810)
+alphaQ15 = alpha(matrix(matq15, nrow = 810))
+alphaQ15
+Q15avg = rowMeans(matq15)
+hist(Q15avg)
+@
+Q15  not very consistent, but normal\\
+
+
+
+Q16 \\
+When deciding whether you support forming a Public Private Partnership to address a community infrastructure project, how important is it that the Partnership offer the following? \\
+
+
+a. A less expensive option \\
+b. A higher quality product \\
+c. More public participation in the decision process \\
+d. Greater opportunities for local economic development \\
+1. Not important at all \\
+2. Not so important \\
+3. Somewhat important \\
+4. Very important \\
+
+<<>>=
+#Q16, 111:114
+
+matq16 = matrix(as.numeric(unlist(as.data.frame(crisp[,111:114]))), nrow = 810)
+alphaQ16 = alpha(matrix(matq16, nrow = 810))
+alphaQ16
+Q16avg = rowMeans(matq16)
+hist(Q16avg)
+
+
+@
+
+ Q16 not very consistent nor normal\\
+ Q17 \\
+To what extent do you disagree or agree with the following statements about Public Private Partnerships?  \\
+
+a. The use of Public Private Partnerships can benefit my community. \\
+b. Local officials in my community support the use of Public Private Partnerships. \\
+c. Private industries in my community support the use of Public Private Partnerships. \\
+d. The people in my community support the use of Public Private Partnerships. \\
+
+
+1. Strongly disagree \\
+2. Disagree \\
+3. Neither disagree nor agree \\
+4. Agree \\
+5. Strongly agree\\
+
+<<>>=
+#q17, 115:118
+
+matq17 = matrix(as.numeric(unlist(as.data.frame(crisp[,115:118]))), nrow = 810)
+alphaQ17 = alpha(matrix(matq17, nrow = 810))
+alphaQ17
+Q17avg = rowMeans(matq17)
+hist(Q17avg)
+
+
+@
+normal, consistent \\
+
+Q19\\
+How much do you distrust or trust the following types of organizations? \\
+
+
+a. City government \\
+b. County government \\
+c. State government \\
+d. Federal government \\
+e. Private industry \\
+f. Nonprofit organizations \\
+g. Public Private Partnerships \\
+
+
+1. Strongly distrust \\
+2. Distrust \\
+3. Neither distrust nor trust \\
+4. Trust \\
+5. Strongly trust\\
+
+
+<<>>=
+#q19 120:126
+matq19 = matrix(as.numeric(unlist(as.data.frame(crisp[,120:126]))), nrow = 810)
+alphaQ19 = alpha(matrix(matq19, nrow = 810))
+alphaQ19
+Q19avg = rowMeans(matq19)
+hist(Q19avg)
+@
+
+normal, consistent \\
+
+
+Q20 \\
+How responsible should the following types of organizations be for making policies for your community infrastructure? \\
+
+a. City government \\
+b. County government \\
+c. State government \\
+d. Federal government \\
+e. Private industry \\
+f. Nonprofit organizations \\
+g. Public Private Partnerships \\
+
+
+1. Not responsible at all
+2. Not so responsible \\
+3. Somewhat responsible \\
+4. Very responsible \\
+
+<<>>=
+#q20 127:133
+matq20 = matrix(as.numeric(unlist(as.data.frame(crisp[,127:133]))), nrow = 810)
+alphaQ20 = alpha(matrix(matq20, nrow = 810))
+alphaQ20
+Q20avg = rowMeans(matq20)
+hist(Q20avg)
+@
+consistent, somewhat normal\\
+Q21 \\
+How responsible should the following types of organizations be for spending money on your community infrastructure?\\
+
+a. City government \\
+b. County government \\
+c. State government \\
+d. Federal government \\
+e. Private industry \\
+f. Nonprofit organizations \\
+g. Public Private Partnerships \\
+
+1. Not responsible at all \\
+2. Not so responsible \\
+3. Somewhat responsible \\
+4. Very responsible \\
+
+
+<<>>=
+#q21 134:139
+matq21 = matrix(as.numeric(unlist(as.data.frame(crisp[,134:139]))), nrow = 810)
+alphaQ21 = alpha(matrix(matq21, nrow = 810))
+alphaQ21
+Q21avg = rowMeans(matq21)
+hist(Q21avg)
+@
+consistent, somewhat normal\\
+
+
+Q22 
+How much do you oppose or support the following policies to improve your community infrastructure? \\
+
+
+a. Limit development in areas where infrastructure failures are likely \\
+b. Provide financial incentives for people to relocate from vulnerable areas \\
+c. Strengthen infrastructure design standards \\
+d. Strengthen building design standards \\
+e. Conduct more frequent maintenance on  infrastructure\\
+f. Conduct more frequent replacement of older infrastructure\\
+g. Build additional infrastructure to address vulnerabilities\\
+h. Address identified infrastructure vulnerabilities through coordinated planning \\
+g. Work to engage affected stakeholders and communities in infrastructure decisions \\
+
+
+1. Strongly oppose \\
+2. Oppose \\
+3. Neither support nor oppose \\
+4. Support \\
+5. Strongly support \\
+
+
+
+<<>>=
+
+#q22 141:149
+matq22 = matrix(as.numeric(unlist(as.data.frame(crisp[,141:149]))), nrow = 810)
+alphaQ22 = alpha(matrix(matq22, nrow = 810))
+alphaQ22
+Q22avg = rowMeans(matq22)
+hist(Q22avg)
+@
+consistent, somewhat normal
+
+\end{document}

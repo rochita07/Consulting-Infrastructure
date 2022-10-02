@@ -1,0 +1,117 @@
+\documentclass{article}
+
+\begin{document}
+<<>>=
+knitr::opts_chunk$set(fig.path='Figs/',
+                      echo=FALSE, warning=FALSE, message=FALSE)
+@
+
+
+
+<<>>=
+load("crisp.RData")
+@
+
+
+Here we have code to make ggplots of weighted survey data. 
+<<>>=
+library(ggplot2)
+library(dplyr)
+
+ggfreqweight = function(df, x, weights){
+  return(ggplot(df, aes({{x}}))+geom_bar(aes(weight = {{weights}}, y = (..count..)/sum(..count..))))}
+
+ggcrosstabs = function(df, x, y, weights){
+  newdf = df %>% group_by({{x}},{{y}})  %>% tally(, wt = {{weights}}) %>% mutate(f = n/sum(n))
+  plotnew = ggplot(newdf, aes({{y}}))+geom_bar(aes(weight = f))+facet_grid(rows = vars({{x}}))
+  return(plotnew)
+}
+
+
+ggcrosstabs3d = function(df, x, y, z, weights){
+  newdf = df %>% group_by({{x}},{{y}}, {{z}})  %>% tally(, wt = {{weights}}) %>% mutate(f = n/sum(n))
+  print(newdf)
+  plotnew = ggplot(newdf, aes({{z}}))+geom_bar(aes(weight = f))+facet_grid(rows = vars({{x}}), cols = vars({{y}}))
+  return(plotnew)
+  
+}
+@
+
+
+One thing of interest to the client is how trust in an institution affects desire for that institution to be involved in policy.  We made some plots relating to the following questions: \\
+
+Q19 \\
+How much do you distrust or trust the following types of organizations? \\
+
+a. Private Industry \\
+b. County government\\
+c. State government\\
+d. Federal government\\
+e. Private industry\\
+f. Nonprofit organizations \\
+g. Public Private Partnerships \\
+
+
+1. Strongly distrust\\
+2. Distrust\\
+3. Neither distrust nor trust \\
+4. Trust \\
+5. Strongly trust \\
+
+Q20 \\
+How responsible should the following types of organizations be for making policies for your community infrastructure? \\
+
+
+a. Private Industry\\
+b. County government\\
+c. State government\\
+d. Federal government\\
+e. Private industry\\
+f. Nonprofit organizations\\
+g. Public Private Partnerships\\
+
+
+1. Not responsible at all\\
+2. Not so responsible\\
+3. Somewhat responsible\\
+4. Very responsible\\
+
+
+What we are looking for is if trust in the institution affects policy support and if there are differences between the different institutions in the effect of Trust
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_1) & !is.na(crisp$Q19_1),], Q19_1, Q20_1, weight1_PID) + ggtitle("Responsibility for City Government to make infrastructure Policy by trust in Private Industry") + ylab("Trust in City Government")+xlab("Responsbility for City Government to Make Infrastructure Policy ")
+@
+
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_2) & !is.na(crisp$Q19_2),], Q19_2, Q20_2, weight1_PID) + ggtitle("Responsibility for County Government to make infrastructure Policy by trust in County Government") + ylab("Trust in County Government")+xlab("Responsbility for County Government to Make Infrastructure Policy ")
+@
+
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_3) & !is.na(crisp$Q19_3),], Q19_3, Q20_3, weight1_PID) + ggtitle("Responsibility for State Government to make infrastructure Policy by trust in State Government") + ylab("Trust in State Government")+xlab("Responsbility for State Government to Make Infrastructure Policy ")
+@
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_4) & !is.na(crisp$Q19_4),], Q19_4, Q20_4, weight1_PID) + ggtitle("Responsibility for Federal Government to make infrastructure Policy by trust in Federal Government") + ylab("Trust in Federal Government")+xlab("Responsbility for Private Industry to Make Infrastructure Policy ")
+@
+
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_5) & !is.na(crisp$Q19_5),], Q19_5, Q20_5, weight1_PID) + ggtitle("Responsibility for Private Industry to make infrastructure Policy by trust in Private Industry") + ylab("Trust in Private Industry")+xlab("Responsbility for Private Industry to Make Infrastructure Policy ")
+@
+
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_6) & !is.na(crisp$Q19_6),], Q19_6, Q20_6, weight1_PID) + ggtitle("Responsibility for Nonprofits to make infrastructure Policy by trust in Nonprofits") + ylab("Trust in Nonprofits")+xlab("Responsbility for Nonprofits to Make Infrastructure Policy ")
+@
+
+<<>>=
+ggcrosstabs(crisp[!is.na(crisp$Q20_7) & !is.na(crisp$Q19_7),], Q19_7, Q20_7, weight1_PID) + ggtitle("Responsibility for Public Private Partnerships to make infrastructure Policy by trust in Private Industry") + ylab("Trust in Public Private Partnerships")+xlab("Responsbility for Public Private Partnerships to Make Infrastructure Policy ")
+@
+
+
+We see similarities in the effect across institution and that trust does play a big role in responsibility.  
+
+\end{document}
